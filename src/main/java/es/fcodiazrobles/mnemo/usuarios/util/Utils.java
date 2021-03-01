@@ -1,5 +1,7 @@
 package es.fcodiazrobles.mnemo.usuarios.util;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -56,7 +58,10 @@ public class Utils {
         if (result == null) {
             return ResponseHeader.builder().http_code(HttpStatus.NOT_FOUND.value()).message("").error(Boolean.TRUE)
                     .build();
-        } else {
+        } else if (result instanceof List && ((List) result).size() == 0) {
+            return ResponseHeader.builder().http_code(HttpStatus.NOT_FOUND.value()).message("").error(Boolean.TRUE)
+                    .build();
+        }else {
             return ResponseHeader.builder().http_code(HttpStatus.OK.value()).message("").error(Boolean.FALSE).build();
         }
     }
