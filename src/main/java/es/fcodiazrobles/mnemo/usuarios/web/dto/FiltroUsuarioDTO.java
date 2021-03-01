@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "Filtro del objeto usuario", description = "Contiene los valores del filtro en la busqueda de usuarios")
 public class FiltroUsuarioDTO extends AbstractFiltroDTO implements Specification<Usuario>{
     
-    @ApiModelProperty("ID del usuario")
-    private Long id;
     @ApiModelProperty("Nombre de usuario")
     private String username;
     @ApiModelProperty("Apellidos del usuario")
@@ -34,10 +32,6 @@ public class FiltroUsuarioDTO extends AbstractFiltroDTO implements Specification
     @Override
     public Predicate toPredicate(Root<Usuario> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> filters = new ArrayList<>();
-
-        if(id != null) {
-            filters.add(criteriaBuilder.equal(root.get("id"), id));
-        }
         
         if(username != null && username.isEmpty()) {
             filters.add(criteriaBuilder.like(root.get("username"), username));

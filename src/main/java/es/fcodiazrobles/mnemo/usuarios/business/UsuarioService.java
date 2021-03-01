@@ -18,4 +18,6 @@ public interface UsuarioService {
 
     List<Usuario> findAll(FiltroUsuarioDTO filtro);
     
+    Usuario findById(Long id);
+    
 }

@@ -1,12 +1,12 @@
 package es.fcodiazrobles.mnemo.usuarios.business.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import es.fcodiazrobles.mnemo.usuarios.business.UsuarioService;
@@ -30,8 +30,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> findAll(FiltroUsuarioDTO filtro) {        
         Pageable page = PageRequest.of(filtro.getOffset(), filtro.getLimit(), Sort.Direction.fromString(filtro.getDirectionSort()), filtro.getCampoSort());
-        Specification<Usuario> spec = filtro;
-        return usuarioRepository.findAll(spec, page).toList();
+        return usuarioRepository.findAll(filtro, page).toList();
+    }
+
+    @Override
+    public Usuario findById(Long id) {
+        Optional<Usuario> result = usuarioRepository.findById(id);
+        if(result.isPresent()) {
+            return result.get();
+        }
+        return null;
     }
    
 }

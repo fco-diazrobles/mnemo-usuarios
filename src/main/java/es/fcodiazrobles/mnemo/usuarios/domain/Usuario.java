@@ -1,5 +1,6 @@
 package es.fcodiazrobles.mnemo.usuarios.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,7 +26,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class Usuario implements Serializable {
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = -625333449278461526L;
+
     /**
      * ID identificador numérico
      */
