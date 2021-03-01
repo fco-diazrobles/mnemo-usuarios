@@ -39,18 +39,17 @@ public class FiltroUsuarioDTO extends AbstractFiltroDTO implements Specification
             filters.add(criteriaBuilder.equal(root.get("id"), id));
         }
         
+        if(username != null && username.isEmpty()) {
+            filters.add(criteriaBuilder.like(root.get("username"), username));
+        }
         
-//        if (criteria != null) {
-//            if (criteria.getNif() != null && !criteria.getNif().isEmpty()) {
-//                filters.add(criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("nif")),
-//                        "%" + criteria.getNif().toUpperCase() + "%"));
-//            }
-//
-//            if (criteria.getNombreCompleto() != null && !criteria.getNombreCompleto().isEmpty()) {
-//                filters.add(criteriaBuilder.like(criteriaBuilder.upper(root.<String>get("nombreCompleto")),
-//                        "%" + criteria.getNombreCompleto().toUpperCase() + "%"));
-//            }
-//        }
+        if(lastname != null && lastname.isEmpty()) {
+            filters.add(criteriaBuilder.like(root.get("lastname"), lastname));
+        }
+        
+        if(lastname != null && lastname.isEmpty()) {
+            filters.add(criteriaBuilder.equal(root.get("code"), code));
+        }
 
         return criteriaBuilder.and(filters.toArray(new Predicate[filters.size()]));
     }    
