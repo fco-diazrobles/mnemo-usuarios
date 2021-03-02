@@ -12,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
+import es.fcodiazrobles.mnemo.usuarios.util.Constantes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,18 +47,21 @@ public class Usuario implements Serializable {
     /**
      * Nombre del usuario
      */
+    @Size(max = Constantes.MAX_LENGTH_USUARIO_USERNAME)
     @Column(name = "USERNAME")
     private String username;
     
     /**
      * Apellidos del usuario
      */
+    @Size(max = Constantes.MAX_LENGTH_USUARIO_LASTNAME)
     @Column(name = "LASTNAME")
     private String lastname;
     
     /**
      * Identificador personal alfanumérico
      */
+    @Size(max = Constantes.MAX_LENGTH_USUARIO_CODE)
     @Column(name = "CODE")
     private String code;
     

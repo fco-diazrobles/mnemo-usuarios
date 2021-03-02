@@ -11,9 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import es.fcodiazrobles.mnemo.usuarios.util.Constantes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +49,7 @@ public class Grupo implements Serializable{
      * Nombre del grupo
      */
     @Column(name = "NOMBRE")
+    @Size(max = Constantes.MAX_LENGTH_GRUPO_NOMBRE)
     private String name;    
     
     @JsonIgnore
