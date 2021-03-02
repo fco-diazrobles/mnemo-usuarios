@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 
 import es.fcodiazrobles.mnemo.usuarios.web.dto.ResponseHeader;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +66,21 @@ public class Utils {
                     .build();
         }else {
             return ResponseHeader.builder().http_code(HttpStatus.OK.value()).message("").error(Boolean.FALSE).build();
+        }
+    }
+    
+    /**
+     * Procesa los errores al validar beans de Java en el Controller de Spring
+     * @param errors Erores del controlador de Spring
+     * @throws ValidationException Devuelve una Excepcion de Validacion si existen errores.
+     */
+    public static void processValidationErrors(Errors errors) throws ValidationException {
+        if(errors.hasErrors()) {
+            String errores = "";
+            for(ObjectError e : errors.getAllErrors()) {
+                errores= errores.concat("El campo " + ((DefaultMessageSourceResolvable) e.getArguments()[0]).getDefaultMessage() + " "+ e.getDefaultMessage() + ". ");
+            }
+          throw new ValidationException(errores);   
         }
     }
 
