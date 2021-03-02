@@ -1,4 +1,4 @@
-package es.fcodiazrobles.mnemo.usuarios.domain;
+package es.fcodiazrobles.mnemo.usuarios.web.dto;
 
 import java.util.List;
 
@@ -9,39 +9,27 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 /**
- * Entidad de la tabla USUARIO
+ * DTO de Grupo
  * 
  * @author Francisco José Díaz Robles
  */
-@Entity
-@Table(name = "GRUPO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Grupo {
+public class GrupoDTO {
     /**
      * ID identificador numérico
      */
-    @Id
-    @Column(name = "ID")
     private Long id;
 
-    /**
-     * Nombre del grupo
-     */
-    @Column(name = "NOMBRE")
-    private String name;    
-    
-    @JsonIgnore
-    @ManyToMany(mappedBy = "grupos", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios;
-
+   /**
+    * Nombre del grupo
+    */
+    private String name;
 }

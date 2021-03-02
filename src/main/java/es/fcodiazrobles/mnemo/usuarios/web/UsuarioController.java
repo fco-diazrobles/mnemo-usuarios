@@ -15,6 +15,7 @@ import es.fcodiazrobles.mnemo.usuarios.util.Utils;
 import es.fcodiazrobles.mnemo.usuarios.web.dto.FiltroUsuarioDTO;
 import es.fcodiazrobles.mnemo.usuarios.web.dto.Response;
 import es.fcodiazrobles.mnemo.usuarios.web.dto.ResponseHeader;
+import es.fcodiazrobles.mnemo.usuarios.web.dto.UsuarioDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,10 +41,10 @@ public class UsuarioController extends AbstractController{
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
 			@ApiResponse(code = 500, message = "Error obteniendo Usuario", response = UsuariosException.class) })
 	@GetMapping("/usuario")
-	public Response<List<Usuario>> findAll(@ApiParam(name="filtro", example="{}") FiltroUsuarioDTO filtro) {
-		Response<List<Usuario>> response = Response.<List<Usuario>>builder().build();
+	public Response<List<UsuarioDTO>> findAll(@ApiParam(name="filtro", example="{}") FiltroUsuarioDTO filtro) {
+		Response<List<UsuarioDTO>> response = Response.<List<UsuarioDTO>>builder().build();
 		try {
-			List<Usuario> result = usuarioService.findAll(filtro);
+			List<UsuarioDTO> result = usuarioService.findAll(filtro);
 			response.setHeader(Utils.processHeader(result));
 			response.setBody(result);
 		} catch (Exception e) {
@@ -65,10 +66,10 @@ public class UsuarioController extends AbstractController{
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
             @ApiResponse(code = 500, message = "Error obteniendo Usuario", response = UsuariosException.class) })
     @GetMapping("/usuario/{id}")
-    public Response<Usuario> findById(@ApiParam(name = "id", example = "1") @PathVariable Long id) {
-        Response<Usuario> response = Response.<Usuario>builder().build();
+    public Response<UsuarioDTO> findById(@ApiParam(name = "id", example = "1") @PathVariable Long id) {
+        Response<UsuarioDTO> response = Response.<UsuarioDTO>builder().build();
         try {
-            Usuario result = usuarioService.findById(id);
+            UsuarioDTO result = usuarioService.findById(id);
             response.setHeader(Utils.processHeader(result));
             response.setBody(result);
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import es.fcodiazrobles.mnemo.usuarios.domain.Usuario;
 import es.fcodiazrobles.mnemo.usuarios.web.dto.FiltroUsuarioDTO;
+import es.fcodiazrobles.mnemo.usuarios.web.dto.UsuarioDTO;
 
 /**
  * Service para operaciones en BD de la Tabla Usuario
@@ -16,8 +17,8 @@ import es.fcodiazrobles.mnemo.usuarios.web.dto.FiltroUsuarioDTO;
 @Service
 public interface UsuarioService {
 
-    List<Usuario> findAll(FiltroUsuarioDTO filtro);
+    List<UsuarioDTO> findAll(FiltroUsuarioDTO filtro);
     
-    Usuario findById(Long id);
+    UsuarioDTO findById(Long id);
     
 }

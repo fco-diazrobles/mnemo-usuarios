@@ -1,5 +1,6 @@
 package es.fcodiazrobles.mnemo.usuarios.business.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,10 +10,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.fcodiazrobles.mnemo.usuarios.business.UsuarioService;
 import es.fcodiazrobles.mnemo.usuarios.domain.Usuario;
 import es.fcodiazrobles.mnemo.usuarios.repository.UsuarioRepository;
 import es.fcodiazrobles.mnemo.usuarios.web.dto.FiltroUsuarioDTO;
+import es.fcodiazrobles.mnemo.usuarios.web.dto.UsuarioDTO;
 
 /**
  * Implementanción de UsuarioService
@@ -26,18 +30,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    
+    ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public List<Usuario> findAll(FiltroUsuarioDTO filtro) {        
+    public List<UsuarioDTO> findAll(FiltroUsuarioDTO filtro) {        
         Pageable page = PageRequest.of(filtro.getOffset(), filtro.getLimit(), Sort.Direction.fromString(filtro.getDirectionSort()), filtro.getCampoSort());
-        return usuarioRepository.findAll(filtro, page).toList();
+        
+        List<UsuarioDTO> usuariosDTO = new ArrayList<UsuarioDTO>();
+        for(Usuario u : usuarioRepository.findAll(filtro, page).toList()) {
+            usuariosDTO.add(mapper.convertValue(u, UsuarioDTO.class));
+        }
+       
+        return usuariosDTO;
     }
 
     @Override
-    public Usuario findById(Long id) {
+    public UsuarioDTO findById(Long id) {
         Optional<Usuario> result = usuarioRepository.findById(id);
         if(result.isPresent()) {
-            return result.get();
+            return mapper.convertValue(result.get(), UsuarioDTO.class);
         }
         return null;
     }
