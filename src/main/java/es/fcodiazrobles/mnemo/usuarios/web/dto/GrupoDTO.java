@@ -8,7 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 
+import es.fcodiazrobles.mnemo.usuarios.util.Constantes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,5 +33,6 @@ public class GrupoDTO {
    /**
     * Nombre del grupo
     */
+    @Max(Constantes.MAX_LENGTH_GRUPO_NOMBRE)
     private String name;
 }
