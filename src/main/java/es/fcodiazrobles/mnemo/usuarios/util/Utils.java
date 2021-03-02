@@ -64,6 +64,8 @@ public class Utils {
         } else if (result instanceof List && ((List) result).size() == 0) {
             return ResponseHeader.builder().http_code(HttpStatus.NOT_FOUND.value()).message("").error(Boolean.TRUE)
                     .build();
+        } else if(result.getClass().equals(char.class) && (char)result == Constantes.OP_VOID_DELETE) {
+            return ResponseHeader.builder().http_code(HttpStatus.OK.value()).message("").error(Boolean.FALSE).build();
         }else {
             return ResponseHeader.builder().http_code(HttpStatus.OK.value()).message("").error(Boolean.FALSE).build();
         }

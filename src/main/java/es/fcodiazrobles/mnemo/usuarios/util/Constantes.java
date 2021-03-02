@@ -9,4 +9,7 @@ public class Constantes {
     public final static int MAX_LENGTH_USUARIO_LASTNAME = 40;
     public final static int MAX_LENGTH_USUARIO_CODE = 40;
     public final static int MAX_LENGTH_GRUPO_NOMBRE = 20;
+    
+    /* Controllers */
+    public final static char OP_VOID_DELETE = 'D';
 }

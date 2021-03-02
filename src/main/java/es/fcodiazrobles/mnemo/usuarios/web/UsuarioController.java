@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.fcodiazrobles.mnemo.usuarios.business.UsuarioService;
+import es.fcodiazrobles.mnemo.usuarios.util.Constantes;
 import es.fcodiazrobles.mnemo.usuarios.util.UsuariosException;
 import es.fcodiazrobles.mnemo.usuarios.util.Utils;
 import es.fcodiazrobles.mnemo.usuarios.util.ValidationException;
@@ -147,4 +149,29 @@ public class UsuarioController extends AbstractController{
         }
         return response;
     }
+    
+    
+    /**
+     * Eliminar el usuario por ID
+     * 
+     * @param id ID del usuario a eliminar
+     */
+
+    @ApiOperation(value = "Eliminacion de usuario", notes = "Elimina un usuario por su ID")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Usuario eliminado"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Error eliminando el usuario", response = UsuariosException.class) })
+    @DeleteMapping("/usuario/{id}")
+    public Response<Object> delete(@ApiParam(name = "id", example = "1") @PathVariable Long id) {
+        Response<Object> response = Response.<Object>builder().build();
+        try {
+            usuarioService.delete(id);
+            response.setHeader(Utils.processHeader(Constantes.OP_VOID_DELETE));
+        } catch (Exception e) {
+            response.setHeader(ResponseHeader.builder().http_code(HttpStatus.CONFLICT.value())
+                    .message("Error al obtener el usuario con ID: " + id + " - " + e.getMessage()).error(Boolean.TRUE).build());
+        }
+        return response;
+    }
+    
 }

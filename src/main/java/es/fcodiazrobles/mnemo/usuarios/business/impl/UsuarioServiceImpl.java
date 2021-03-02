@@ -70,6 +70,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         return save(usuario);
     }
     
+    @Override
+    public void delete(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+    
     
     /**
      * PRIVATE METHODS

@@ -25,4 +25,6 @@ public interface UsuarioService {
     
     UsuarioDTO update(UsuarioDTO usuario) throws ValidationException;
     
+    void delete(Long id);
+    
 }
