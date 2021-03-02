@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class UsuarioController extends AbstractController{
 	@ApiOperation(value = "Consulta de lista usuarios", notes = "Obtiene una lista de usuarios paginada a partir de unos criterios")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Usuario obtenido"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-			@ApiResponse(code = 500, message = "Error obteniendo Usuario", response = UsuariosException.class) })
+			@ApiResponse(code = 500, message = "Error obteniendo usuarios", response = UsuariosException.class) })
 	@GetMapping("/usuario")
 	public Response<List<UsuarioDTO>> findAll(@ApiParam(name="filtro", example="{}") @Valid FiltroUsuarioDTO filtro, @ApiIgnore Errors validationErrors) {
 		Response<List<UsuarioDTO>> response = Response.<List<UsuarioDTO>>builder().build();
@@ -74,7 +75,7 @@ public class UsuarioController extends AbstractController{
     @ApiOperation(value = "Consulta de usuario", notes = "Obtiene un un usuario por su ID")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Usuario obtenido"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 500, message = "Error obteniendo Usuario", response = UsuariosException.class) })
+            @ApiResponse(code = 500, message = "Error obteniendo el usuario", response = UsuariosException.class) })
     @GetMapping("/usuario/{id}")
     public Response<UsuarioDTO> findById(@ApiParam(name = "id", example = "1") @PathVariable Long id) {
         Response<UsuarioDTO> response = Response.<UsuarioDTO>builder().build();
@@ -93,16 +94,16 @@ public class UsuarioController extends AbstractController{
     /**
      * Alta de usuario
      * 
-     * @param id ID del usuario
-     * @return Usuario obtenido
+     * @param usuario Usuario a crear
+     * @return Usuario creado
      */
 
-    @ApiOperation(value = "Alta de usuario", notes = "Alta de un un usuario")
+    @ApiOperation(value = "Alta de usuario", notes = "Alta de un usuario")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Usuario obtenido"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 500, message = "Error obteniendo Usuario", response = UsuariosException.class) })
+            @ApiResponse(code = 500, message = "Error creando el usuario", response = UsuariosException.class) })
     @PostMapping("/usuario")
-    public Response<UsuarioDTO> save(@ApiParam(name = "usuario", example = "{}") @RequestBody UsuarioDTO usuario) {
+    public Response<UsuarioDTO> create(@ApiParam(name = "usuario", example = "{}") @RequestBody UsuarioDTO usuario) {
         Response<UsuarioDTO> response = Response.<UsuarioDTO>builder().build();
         try {
             UsuarioDTO result = usuarioService.create(usuario);
@@ -114,6 +115,35 @@ public class UsuarioController extends AbstractController{
         } catch (Exception e) {
             response.setHeader(ResponseHeader.builder().http_code(HttpStatus.CONFLICT.value())
                     .message("Error al dar de alta al usuario " + e.getMessage()).error(Boolean.TRUE).build());
+        }
+        return response;
+    }
+    
+    
+    /**
+     * Modificacion de usuario
+     * 
+     * @param usuario Usuario a modificar
+     * @return Usuario modificado
+     */
+
+    @ApiOperation(value = "Modificación de usuario", notes = "Modificacion de un usuario")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Usuario obtenido"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Error modificando el usuario", response = UsuariosException.class) })
+    @PutMapping("/usuario")
+    public Response<UsuarioDTO> update(@ApiParam(name = "usuario", example = "{}") @RequestBody UsuarioDTO usuario) {
+        Response<UsuarioDTO> response = Response.<UsuarioDTO>builder().build();
+        try {
+            UsuarioDTO result = usuarioService.update(usuario);
+            response.setHeader(Utils.processHeader(result));
+            response.setBody(result);
+        } catch (ValidationException e) {
+            response.setHeader(ResponseHeader.builder().http_code(HttpStatus.BAD_REQUEST.value())
+                    .message("Peticion erronea. " + HttpStatus.BAD_REQUEST.toString() + ": " + e.getMessage()).error(Boolean.TRUE).build());
+        } catch (Exception e) {
+            response.setHeader(ResponseHeader.builder().http_code(HttpStatus.CONFLICT.value())
+                    .message("Error al modificar el usuario " + e.getMessage()).error(Boolean.TRUE).build());
         }
         return response;
     }

@@ -62,6 +62,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         return save(usuario);
     }    
     
+    @Override
+    public UsuarioDTO update(UsuarioDTO usuario) throws ValidationException {
+        if(usuario.getId() == null) {
+            throw new ValidationException("EL usuario a modificar debe tener una ID");
+        }
+        return save(usuario);
+    }
+    
     
     /**
      * PRIVATE METHODS

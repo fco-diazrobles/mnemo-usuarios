@@ -23,4 +23,6 @@ public interface UsuarioService {
     
     UsuarioDTO create(UsuarioDTO usuario) throws ValidationException;
     
+    UsuarioDTO update(UsuarioDTO usuario) throws ValidationException;
+    
 }
